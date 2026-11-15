@@ -1,0 +1,296 @@
+{
+  "all": {
+    "label": "All matches, both leagues",
+    "matches": 9799,
+    "days": 1760,
+    "favourite_win_rate": 0.5058679457087458,
+    "favourite_priced": 0.5049663719243491,
+    "ratio_2leg": 0.9588117117009068,
+    "ratio_3leg": 0.9182488885680788,
+    "ratio_4leg": 0.879310446081223,
+    "priced_2leg": 12972.30712580191,
+    "priced_3leg": 28213.483645375803,
+    "priced_4leg": 46989.09262836553,
+    "actual_2leg": 12438.0,
+    "actual_3leg": 25907.0,
+    "actual_4leg": 41318.0,
+    "overdispersion": 0.9734978389512219,
+    "rho": -0.0017601219352267336,
+    "pairs": 51561,
+    "ratio_2leg_null_mean": 1.0050273752555554,
+    "ratio_2leg_null_95": [
+      0.9826328485114414,
+      1.0292620180039744
+    ],
+    "ratio_2leg_p_value": 1.0,
+    "ratio_3leg_null_mean": 1.0103528851197972,
+    "ratio_3leg_null_95": [
+      0.958540559643658,
+      1.0652875563837336
+    ],
+    "ratio_3leg_p_value": 1.0,
+    "ratio_4leg_null_mean": 1.0174430149756044,
+    "ratio_4leg_null_95": [
+      0.9290758507861441,
+      1.1161030184951457
+    ],
+    "ratio_4leg_p_value": 1.0,
+    "overdispersion_null_mean": 1.0037713228134204,
+    "overdispersion_null_95": [
+      0.9093249076129798,
+      1.102991322812958
+    ],
+    "overdispersion_p_value": 0.735632183908046,
+    "rho_null_mean": 0.0007985627155093391,
+    "rho_null_95": [
+      -0.007654721364723904,
+      0.009771241716461383
+    ],
+    "rho_p_value": 0.7261369315342329
+  },
+  "E0": {
+    "label": "Premier League only",
+    "matches": 4010,
+    "days": 1196,
+    "favourite_win_rate": 0.5513715710723192,
+    "favourite_priced": 0.5491725198787144,
+    "ratio_2leg": 0.9730059459739026,
+    "ratio_3leg": 0.9467559154738285,
+    "ratio_4leg": 0.9549240559209772,
+    "priced_2leg": 2427.528844786065,
+    "priced_3leg": 1981.503330835918,
+    "priced_4leg": 1162.3961016768603,
+    "actual_2leg": 2362.0,
+    "actual_3leg": 1876.0,
+    "actual_4leg": 1110.0,
+    "overdispersion": 0.9841753281584706,
+    "rho": -0.0018973410925957974,
+    "pairs": 8062,
+    "ratio_2leg_null_mean": 1.0090967209706712,
+    "ratio_2leg_null_95": [
+      0.9745517929130602,
+      1.0437101227304606
+    ],
+    "ratio_2leg_p_value": 0.9815092453773113,
+    "ratio_3leg_null_mean": 1.0160384019232815,
+    "ratio_3leg_null_95": [
+      0.9238928048693585,
+      1.1111627868968776
+    ],
+    "ratio_3leg_p_value": 0.9240379810094953,
+    "ratio_4leg_null_mean": 1.023304379792927,
+    "ratio_4leg_null_95": [
+      0.8339920025958195,
+      1.236300617750637
+    ],
+    "ratio_4leg_p_value": 0.7486256871564217,
+    "overdispersion_null_mean": 0.9980821302201105,
+    "overdispersion_null_95": [
+      0.9066865152802833,
+      1.1007780605401472
+    ],
+    "overdispersion_p_value": 0.6051974012993503,
+    "rho_null_mean": 0.0007323686178010873,
+    "rho_null_95": [
+      -0.019803492264289426,
+      0.023922382645273462
+    ],
+    "rho_p_value": 0.5802098950524738
+  },
+  "E1": {
+    "label": "Championship only",
+    "matches": 5789,
+    "days": 1182,
+    "favourite_win_rate": 0.4743479011919157,
+    "favourite_priced": 0.4743450809765162,
+    "ratio_2leg": 0.9497751575692314,
+    "ratio_3leg": 0.8945304960396452,
+    "ratio_4leg": 0.8351261352582839,
+    "priced_2leg": 4871.679326549165,
+    "priced_3leg": 6168.599085698968,
+    "priced_4leg": 5457.858169640833,
+    "actual_2leg": 4627.0,
+    "actual_3leg": 5518.0,
+    "actual_4leg": 4558.0,
+    "overdispersion": 0.9487750173294888,
+    "rho": -0.0055790553134887405,
+    "pairs": 21581,
+    "ratio_2leg_null_mean": 1.0002902760372105,
+    "ratio_2leg_null_95": [
+      0.9732670081536519,
+      1.0277553521736116
+    ],
+    "ratio_2leg_p_value": 1.0,
+    "ratio_3leg_null_mean": 1.0009746776108392,
+    "ratio_3leg_null_95": [
+      0.9383679804459006,
+      1.0697484672460043
+    ],
+    "ratio_3leg_p_value": 1.0,
+    "ratio_4leg_null_mean": 1.0018315832882867,
+    "ratio_4leg_null_95": [
+      0.8819031032118249,
+      1.1368937308613265
+    ],
+    "ratio_4leg_p_value": 0.9980009995002499,
+    "overdispersion_null_mean": 0.9943904369967251,
+    "overdispersion_null_95": [
+      0.8901429335150355,
+      1.099662555115897
+    ],
+    "overdispersion_p_value": 0.7976011994002998,
+    "rho_null_mean": -5.544597810578507e-05,
+    "rho_null_95": [
+      -0.013014807150166943,
+      0.012853011081721597
+    ],
+    "rho_p_value": 0.7946026986506747
+  },
+  "heavy_fav": {
+    "label": "Favourites priced 60%+",
+    "matches": 1993,
+    "days": 956,
+    "favourite_win_rate": 0.7084796788760662,
+    "favourite_priced": 0.7000947707817438,
+    "ratio_2leg": 0.9685543583711597,
+    "ratio_3leg": 0.9323007626234482,
+    "ratio_4leg": 0.911671071031393,
+    "priced_2leg": 957.0965139829193,
+    "priced_3leg": 509.49223581387355,
+    "priced_4leg": 197.439631155963,
+    "actual_2leg": 927.0,
+    "actual_3leg": 475.0,
+    "actual_4leg": 180.0,
+    "overdispersion": 0.9669984689161073,
+    "rho": -0.01424533301772543,
+    "pairs": 1958,
+    "ratio_2leg_null_mean": 1.0278097119286604,
+    "ratio_2leg_null_95": [
+      0.980014831106257,
+      1.0789548931820032
+    ],
+    "ratio_2leg_p_value": 0.9905047476261869,
+    "ratio_3leg_null_mean": 1.046349379770321,
+    "ratio_3leg_null_95": [
+      0.8993123905595112,
+      1.2034686110497375
+    ],
+    "ratio_3leg_p_value": 0.9385307346326837,
+    "ratio_4leg_null_mean": 1.0612817020352907,
+    "ratio_4leg_null_95": [
+      0.7377428499076212,
+      1.4332833656397954
+    ],
+    "ratio_4leg_p_value": 0.7951024487756122,
+    "overdispersion_null_mean": 0.9848561475747161,
+    "overdispersion_null_95": [
+      0.8788251481728515,
+      1.0992363650694084
+    ],
+    "overdispersion_p_value": 0.6176911544227887,
+    "rho_null_mean": 0.000382410425991553,
+    "rho_null_95": [
+      -0.04081350621479862,
+      0.044509588095336436
+    ],
+    "rho_p_value": 0.7391304347826086
+  },
+  "2015_21": {
+    "label": "2015/16-2020/21",
+    "matches": 5590,
+    "days": 983,
+    "favourite_win_rate": 0.5021466905187836,
+    "favourite_priced": 0.5018080822361495,
+    "ratio_2leg": 0.9657801933269489,
+    "ratio_3leg": 0.9252951172821376,
+    "ratio_4leg": 0.8779975198990877,
+    "priced_2leg": 7569.010060993579,
+    "priced_3leg": 16764.381125843698,
+    "priced_4leg": 28281.401071444874,
+    "actual_2leg": 7310.0,
+    "actual_3leg": 15512.0,
+    "actual_4leg": 24831.0,
+    "overdispersion": 0.920280931545484,
+    "rho": -0.005887044350600092,
+    "pairs": 30520,
+    "ratio_2leg_null_mean": 1.0044761212809459,
+    "ratio_2leg_null_95": [
+      0.9733232531739947,
+      1.0353714273528543
+    ],
+    "ratio_2leg_p_value": 0.991504247876062,
+    "ratio_3leg_null_mean": 1.011353737436894,
+    "ratio_3leg_null_95": [
+      0.9455535097679858,
+      1.0811851991323598
+    ],
+    "ratio_3leg_p_value": 0.992503748125937,
+    "ratio_4leg_null_mean": 1.0207535563492607,
+    "ratio_4leg_null_95": [
+      0.9061564110765225,
+      1.1495343390685488
+    ],
+    "ratio_4leg_p_value": 0.9945027486256871,
+    "overdispersion_null_mean": 1.0129956186062365,
+    "overdispersion_null_95": [
+      0.8909006628371379,
+      1.1543795618594275
+    ],
+    "overdispersion_p_value": 0.9240379810094953,
+    "rho_null_mean": 0.001956017667971496,
+    "rho_null_95": [
+      -0.008578920950081685,
+      0.014100231955382325
+    ],
+    "rho_p_value": 0.9190404797601199
+  },
+  "2021_26": {
+    "label": "2021/22-2025/26",
+    "matches": 4209,
+    "days": 777,
+    "favourite_win_rate": 0.5108101686861487,
+    "favourite_priced": 0.5091609167941605,
+    "ratio_2leg": 0.9490501703855337,
+    "ratio_3leg": 0.9079314280107271,
+    "ratio_4leg": 0.8812952656310425,
+    "priced_2leg": 5403.29706480833,
+    "priced_3leg": 11449.102519532107,
+    "priced_4leg": 18707.691556920654,
+    "actual_2leg": 5128.0,
+    "actual_3leg": 10395.0,
+    "actual_4leg": 16487.0,
+    "overdispersion": 1.0443051942214405,
+    "rho": 0.004229487207827913,
+    "pairs": 21041,
+    "ratio_2leg_null_mean": 1.0060860529095268,
+    "ratio_2leg_null_95": [
+      0.9696466759143798,
+      1.0436889004038747
+    ],
+    "ratio_2leg_p_value": 0.999000499750125,
+    "ratio_3leg_null_mean": 1.009296758848325,
+    "ratio_3leg_null_95": [
+      0.9277892051648278,
+      1.0956742445044392
+    ],
+    "ratio_3leg_p_value": 0.992503748125937,
+    "ratio_4leg_null_mean": 1.0130384747158454,
+    "ratio_4leg_null_95": [
+      0.8729617582315659,
+      1.1682289983628709
+    ],
+    "ratio_4leg_p_value": 0.968015992003998,
+    "overdispersion_null_mean": 0.9940508394292201,
+    "overdispersion_null_95": [
+      0.8645758126494789,
+      1.1425083106335352
+    ],
+    "overdispersion_p_value": 0.22988505747126436,
+    "rho_null_mean": -0.0006430732959592458,
+    "rho_null_95": [
+      -0.012777511955171357,
+      0.013368808811239087
+    ],
+    "rho_p_value": 0.22288855572213892
+  }
+}

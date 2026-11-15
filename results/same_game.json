@@ -1,0 +1,116 @@
+{
+  "matches": 6060,
+  "seasons": "2019/20 to 2025/26",
+  "poisson_fit_max_abs_error_median": 0.016486800945813354,
+  "over_rate": 0.5003300330033004,
+  "over_priced": 0.5018681300319259,
+  "cells": {
+    "Fav wins & Over 2.5": {
+      "actual_rate": 0.3087458745874587,
+      "independent_price": 0.2598866170799258,
+      "model_price": 0.30813197580356133,
+      "actual_vs_independent": 1.1880022067181195,
+      "ci": [
+        1.142753358373351,
+        1.2307852569854951
+      ],
+      "model_vs_independent": 1.185640027430878,
+      "actual_vs_model": 1.0019923241730966,
+      "ci_model": [
+        0.9650274069211265,
+        1.036540352756033
+      ]
+    },
+    "Fav wins & Under 2.5": {
+      "actual_rate": 0.19471947194719472,
+      "independent_price": 0.24491144177905208,
+      "model_price": 0.2029082934076871,
+      "actual_vs_independent": 0.7950607392318638,
+      "ci": [
+        0.7545169023992965,
+        0.8337267969499375
+      ],
+      "model_vs_independent": 0.8284965860873977,
+      "actual_vs_model": 0.9596427463709467,
+      "ci_model": [
+        0.9097082033016334,
+        1.0070209455099317
+      ]
+    },
+    "Draw & Over 2.5": {
+      "actual_rate": 0.060396039603960394,
+      "independent_price": 0.1264317314372939,
+      "model_price": 0.05580014910880599,
+      "actual_vs_independent": 0.4776968480726289,
+      "ci": [
+        0.4333459093087037,
+        0.5248364437930945
+      ],
+      "model_vs_independent": 0.4413460804060972,
+      "actual_vs_model": 1.0823634088538505,
+      "ci_model": [
+        0.9752351298957953,
+        1.1922870618490526
+      ]
+    },
+    "Draw & Under 2.5": {
+      "actual_rate": 0.1891089108910891,
+      "independent_price": 0.13194190059149785,
+      "model_price": 0.186597554750849,
+      "actual_vs_independent": 1.4332741156775108,
+      "ci": [
+        1.3606988590665516,
+        1.504734777191292
+      ],
+      "model_vs_independent": 1.4142403127007335,
+      "actual_vs_model": 1.0134586765812303,
+      "ci_model": [
+        0.9638098290207168,
+        1.0639502018231661
+      ]
+    },
+    "Fav loses & Over 2.5": {
+      "actual_rate": 0.1311881188118812,
+      "independent_price": 0.11554978151469972,
+      "model_price": 0.13225500249038977,
+      "actual_vs_independent": 1.1353385276214654,
+      "ci": [
+        1.0657932212085357,
+        1.2115067626234455
+      ],
+      "model_vs_independent": 1.1445716361961698,
+      "actual_vs_model": 0.9919331317650074,
+      "ci_model": [
+        0.9304549625352753,
+        1.0568644417429718
+      ]
+    },
+    "Fav loses & Under 2.5": {
+      "actual_rate": 0.11584158415841585,
+      "independent_price": 0.12127852759751864,
+      "model_price": 0.11430702443870679,
+      "actual_vs_independent": 0.9551697769852044,
+      "ci": [
+        0.8953522443354719,
+        1.021687582628981
+      ],
+      "model_vs_independent": 0.9425165913792436,
+      "actual_vs_model": 1.013424894290131,
+      "ci_model": [
+        0.9423265871414326,
+        1.0844635949741812
+      ]
+    }
+  },
+  "by_band": {},
+  "joint_log_loss": {
+    "independent": 1.6852283837370916,
+    "poisson_model": 1.6397749538419129,
+    "model_minus_independent": -0.04545342989517868,
+    "ci": [
+      -0.052760633563752726,
+      -0.037530367528273385
+    ]
+  },
+  "model_draw_vs_market_draw": 0.9381673429920417
+}

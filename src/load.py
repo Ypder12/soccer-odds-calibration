@@ -20,6 +20,11 @@ COLMAP = {
     "pin_close": ("PSCH", "PSCD", "PSCA"),
     "b365_open": ("B365H", "B365D", "B365A"),
     "best_close": ("MaxCH", "MaxCD", "MaxCA"),
+    "b365_close": ("B365CH", "B365CD", "B365CA"),
+}
+OU_MAP = {
+    "pin_close_ou": ("PC>2.5", "PC<2.5"),
+    "avg_close_ou": ("AvgC>2.5", "AvgC<2.5"),
 }
 BEST_OPEN_ALTS = [("MaxH", "MaxD", "MaxA"), ("BbMxH", "BbMxD", "BbMxA")]
 
@@ -40,6 +45,11 @@ def _read(path: Path) -> pd.DataFrame:
     for name, cols in COLMAP.items():
         for side, c in zip("HDA", cols):
             out[f"{name}_{side}"] = pd.to_numeric(df[c], errors="coerce") if c in df else np.nan
+    for name, (co, cu) in OU_MAP.items():
+        out[f"{name}_over"] = pd.to_numeric(df[co], errors="coerce") if co in df else np.nan
+        out[f"{name}_under"] = pd.to_numeric(df[cu], errors="coerce") if cu in df else np.nan
+    out["hg"] = pd.to_numeric(df["FTHG"], errors="coerce")
+    out["ag"] = pd.to_numeric(df["FTAG"], errors="coerce")
     for cols in BEST_OPEN_ALTS:
         if cols[0] in df:
             for side, c in zip("HDA", cols):
