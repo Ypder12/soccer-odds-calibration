@@ -84,6 +84,45 @@ reproduces the market's fair 1X2 and over 2.5 prices. It never sees results.
 
 ![same game](figures/7_same_game.png)
 
+## Follow-up: is Kalshi's Premier League market as good as the bookmakers'?
+
+**Question:** prediction markets are often described as less efficient than sharp bookmakers.
+For Premier League match-result markets on Kalshi, are the prices less accurate, biased in any
+direction, or more expensive to trade, compared with bookmaker closing odds?
+
+**Data:** every settled Kalshi EPL match-result market from May 2025 to November 2026
+(486 matches, 1,458 prices), plus Kalshi's over 2.5 goals market where it existed (377 matches).
+Kalshi price = mid of the best bid and ask in the last hourly candle ending at least 1 hour before
+kickoff (spread 5 cents or less), rescaled so the three outcomes sum to 1. Benchmark = Pinnacle
+closing odds where football-data has them (217 matches), otherwise the market-average closing odds,
+with Shin margin removal. Median volume: about 360,000 contracts per match in the last day.
+
+**Result: the prices are the same; the cost of taking them is not.**
+
+- **Same prices.** Kalshi's probabilities sit on top of the bookmakers' (average gap 0.9
+  percentage points; 11% of prices differ by more than 2 points). Over 2.5 goals: Kalshi 55.6%,
+  bookmakers 55.6%.
+- **Same accuracy.** Log loss 1.012 (Kalshi) vs 1.011 (bookmakers); difference +0.001
+  (95% CI −0.002 to +0.004). Over 2.5: difference +0.002 (CI −0.002 to +0.005).
+- **No bias relative to the books.** Draws: Kalshi 24.4%, bookmakers 24.4% (both below the
+  27.2% that happened in this sample, which is within noise). No favourite–longshot gap in any band.
+- **Twice the cost to a taker.** Buying at Kalshi's ask and paying its standard fee
+  (0.07 × P × (1 − P) per $1 contract) costs 7.6% above fair value on the matches with Pinnacle odds,
+  against Pinnacle's 3.6% margin. About 80% of Kalshi's cost is the fee, not the spread
+  (average spread 1.2 cents). The gap is widest on longshots: 15.0% vs 8.6% below 15% probability.
+- **No free money.** Buying on Kalshi whenever its ask plus fee was below the bookmakers' fair
+  price: 79 bets, return −9.7% (95% CI −40% to +20%). The apparent edges averaged under 1 cent.
+- **Lead, not a finding:** using Kalshi's last pre-kickoff hour instead (which includes team news),
+  Kalshi was slightly *more* accurate than Pinnacle's close (log loss −0.005, CI −0.009 to −0.001,
+  217 matches). Exact timestamps of football-data's closing odds aren't known, so this may be timing.
+
+**Limits:** one league; match-result and over 2.5 markets only; the fee assumes Kalshi's standard
+schedule (series-specific or maker rates may differ); a bettor posting limit orders instead of
+taking the ask pays less. Same-game combos could not be studied: each combo is a one-off market,
+there are thousands an hour across all sports, and the API offers no way to find those on a given match.
+
+![kalshi vs books](figures/8_kalshi_vs_books.png)
+
 ## Method
 
 - Each match = three forecasts (H/D/A). Margin removed two ways: proportional, and Shin (1993).
@@ -98,6 +137,7 @@ reproduces the market's fair 1X2 and over 2.5 prices. It never sees results.
 ```
 python src/analysis.py   # writes results/
 python src/figures.py    # writes figures/
+python src/kalshi_vs_books.py   # Kalshi comparison (data in data/kalshi/)
 ```
 
 Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` named
@@ -112,5 +152,8 @@ Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` na
 - `src/line_moves.py` – opening-to-closing price moves, and how Bet365 follows Pinnacle
 - `src/favourites_together.py` – do same-day favourites win together? (parlay correlation test)
 - `src/same_game.py` – same-game parlay correlation and Poisson goals model
+- `src/kalshi_fetch.py` – downloads Kalshi EPL prices around kickoff (public API, no key)
+- `src/kalshi_vs_books.py` – Kalshi vs bookmaker accuracy, bias, cost and a betting test
+- `data/kalshi/` – the Kalshi prices used (collected 16 Nov 2026)
 - `src/edge_search.py` – pre-registered edge tests (train 2015–21, test 2021–26)
 - `results/` – all numbers (results.json + CSV tables)

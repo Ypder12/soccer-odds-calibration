@@ -241,3 +241,39 @@ def same_game():
 
 if __name__ == "__main__":
     same_game()
+
+
+def kalshi():
+    """Kalshi vs bookmakers: (left) same probabilities, (right) very different cost to take them."""
+    a = np.load(RES / "kalshi_arrays.npy", allow_pickle=True).item()
+    res = json.loads((RES / "kalshi_vs_books.json").read_text())
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.2))
+    kp, bp = a["kp"].ravel(), a["bp"].ravel()
+    ax1.plot([0, 1], [0, 1], color=INK2, lw=1, ls="--")
+    ax1.scatter(bp, kp, s=9, alpha=0.45, color=BLUE, edgecolor="none")
+    ax1.set(xlim=(0, 0.95), ylim=(0, 0.95), xlabel="Bookmaker closing probability (margin removed)",
+            ylabel="Kalshi probability, 1h before kickoff")
+    c = res["checks"]["1h"]
+    ax1.set_title("Kalshi's prices match the bookmakers'")
+    ax1.text(0.03, 0.88, f"{c['n']} EPL matches, {3*c['n']} prices\nAverage gap {c['mean_abs_gap_pp']:.1f} points\n"
+             f"Same accuracy (log loss {c['logloss_kalshi']:.3f} vs {c['logloss_books']:.3f})",
+             transform=ax1.transAxes, fontsize=9, color=INK2, va="top")
+    b = [d for d in res["by_band"]]
+    x = np.arange(len(b)); w = 0.38
+    ax2.bar(x - w / 2, [d["kalshi_taker_cost_pct_pin_subset"] for d in b], w, color=ORANGE, label="Kalshi: ask + trading fee")
+    ax2.bar(x + w / 2, [d["pinnacle_margin_pct"] for d in b], w, color=BLUE, label="Pinnacle: built-in margin")
+    for xi, d in zip(x, b):
+        ax2.annotate(f"{d['kalshi_taker_cost_pct_pin_subset']:.1f}%", (xi - w / 2, d["kalshi_taker_cost_pct_pin_subset"] + 0.3), ha="center", fontsize=8, color=INK)
+        ax2.annotate(f"{d['pinnacle_margin_pct']:.1f}%", (xi + w / 2, d["pinnacle_margin_pct"] + 0.3), ha="center", fontsize=8, color=INK)
+    ax2.set_xticks(x, [d["band"] for d in b])
+    ax2.set(xlabel="Outcome's fair probability", ylabel="Cost above fair price (% of stake)")
+    ax2.set_title("...but taking a price costs about twice as much")
+    ax2.legend(frameon=False, fontsize=9, loc="upper right")
+    fig.text(0.01, 0.01, "Kalshi EPL match-result markets, May 2025 to Nov 2026. Right panel: the matches where football-data has "
+             "Pinnacle closing odds. Fee = 0.07 x P x (1 - P) per $1 contract.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    fig.savefig(FIG / "8_kalshi_vs_books.png", dpi=180)
+
+
+if __name__ == "__main__":
+    kalshi()
