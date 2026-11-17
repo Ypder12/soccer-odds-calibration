@@ -315,3 +315,37 @@ def kalshi_inplay():
 
 if __name__ == "__main__":
     kalshi_inplay()
+
+
+def xvenue():
+    """Kalshi vs Polymarket: (left) how far apart prices are, (right) which venue moves to close a gap."""
+    D = pd.read_pickle(RES / "xvenue_panel.pkl"); R = json.loads((RES / "xvenue.json").read_text())
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.2))
+    bins = np.arange(0, 6.01, 0.5)
+    for ph, col, lab in (("pre", BLUE, "Before kickoff"), ("inplay", ORANGE, "During the match")):
+        g = (D[D.phase == ph].gap.abs() * 100).clip(upper=6)
+        share = [((g >= lo) & (g < lo + 0.5)).mean() * 100 for lo in bins[:-1]]
+        ax1.plot(bins[:-1] + 0.25, share, "o-", color=col, lw=2, ms=5, label=f"{lab} (avg {R[ph]['mean_abs_gap_c']:.1f}c)")
+    ax1.set(xlabel="Gap between Kalshi mid and Polymarket price (cents, 6 = 6 or more)", ylabel="% of minutes", yscale="log", ylim=(0.01, 100))
+    ax1.set_title("The two venues almost always agree")
+    ax1.legend(frameon=False, fontsize=9)
+    labs = ["Before kickoff", "During the match"]; x = np.arange(2); w = 0.36
+    k = [R["gap_closing_pre"]["kalshi_moves_share"] * 100, R["gap_closing_inplay"]["kalshi_moves_share"] * 100]
+    p = [R["gap_closing_pre"]["polymarket_moves_share"] * 100, R["gap_closing_inplay"]["polymarket_moves_share"] * 100]
+    ax2.bar(x - w / 2, k, w, color=BLUE, label="Kalshi moves")
+    ax2.bar(x + w / 2, p, w, color=ORANGE, label="Polymarket moves")
+    for xi, a, b in zip(x, k, p):
+        ax2.annotate(f"{a:.0f}%", (xi - w / 2, a + 1.5), ha="center", fontsize=9, color=INK)
+        ax2.annotate(f"{b:.0f}%", (xi + w / 2, b + 1.5), ha="center", fontsize=9, color=INK)
+    ax2.set_xticks(x, labs); ax2.set_ylim(0, 100)
+    ax2.set(ylabel="Share of a 2c+ gap closed by each venue\nover the next 10 minutes")
+    ax2.set_title("Who follows whom")
+    ax2.legend(frameon=False, fontsize=9, loc="upper left")
+    fig.text(0.01, 0.01, f"{R['matches']} EPL matches on both venues, Aug 2025 to Nov 2026; Kalshi best bid/ask mid vs Polymarket minute price. "
+             "During matches Polymarket's minute price can lag, which may favour Kalshi here.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    fig.savefig(FIG / "10_kalshi_vs_polymarket.png", dpi=180)
+
+
+if __name__ == "__main__":
+    xvenue()

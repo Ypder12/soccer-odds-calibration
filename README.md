@@ -159,6 +159,51 @@ be located on the price path.
 
 ![kalshi in-play](figures/9_kalshi_inplay.png)
 
+## Follow-up: Kalshi vs Polymarket on the same matches (cross-venue arbitrage)
+
+**Question:** Kalshi and Polymarket both list Premier League match results. Do their prices ever
+drift far enough apart that buying YES on one and NO on the other locks in a profit after fees?
+And when they disagree, which venue moves to close the gap?
+
+**Data:** 479 EPL matches listed on both venues (Aug 2025 to Nov 2026), minute by minute from
+3 hours before kickoff to the end of the match: Kalshi's best bid and ask, and Polymarket's minute
+price history. Plus a live snapshot of both order books for the next 10 matches (17 Nov 2026).
+
+**How a lock-in works:** one of "YES on venue A" and "NO on venue B" always pays $1, so if both cost
+less than $1 together, including Kalshi's fee (0.07 × P × (1 − P)) and Polymarket's sports fee
+(0.05 × P × (1 − P)), the profit is locked in. With prices near 50 cents the fees alone are about
+3 cents, so the venues need to disagree by roughly 3–4 cents before anything is left.
+
+**Result: before kickoff the two venues are effectively one market.**
+
+- **Before kickoff they agree to within half a cent on average.** Gaps over 2 cents happen in 0.9%
+  of minutes and never reach 5 cents. After fees there was essentially no lock-in (2 matches,
+  under 0.2 cents).
+- **The live order books agree too.** On 17 Nov, 17 of 30 outcomes had the identical best ask on both
+  venues; the best available lock-in for 100 contracts *lost* 1.6 cents (average −2.9 cents).
+- **When they disagree before kickoff, Kalshi does most of the moving:** about 78% of a 2-cent gap is
+  closed by Kalshi's price over the next 10 minutes, so Polymarket's price looks like the one that
+  holds.
+- **Equally accurate.** At five minutes before kickoff, log loss 1.011 (Kalshi) vs 1.013 (Polymarket),
+  difference not significant.
+- **During matches, apparent lock-ins show up** in about 2% of minutes, averaging 5 cents. But 83%
+  last a single minute and 39% sit right around a goal (against 11% of in-play minutes overall).
+  That is what stale prices look like: Polymarket's history gives one price per minute, not a live
+  quote, so in fast moments it can lag what was really tradeable. They can't be counted as real
+  opportunities without tick-level order-book data. The same staleness is probably why Polymarket
+  appears to "follow" Kalshi during matches (87% of gaps closed by Polymarket).
+
+**Limits:** Polymarket quotes are approximated as its minute price ± 0.25–1 cent; one league; fees
+assume the published taker schedules; settlement rules must match for a lock-in to be real (both
+settle on 90 minutes plus stoppage time for these markets).
+
+**Live scanner:** `src/xvenue_scanner.py` polls both order books every 20 seconds for upcoming EPL
+matches, prices each lock-in at a real size (walking the book for 100 contracts), logs every check
+to `results/xvenue_scan_log.csv`, and records paper trades. It never places orders. The snapshot
+above was produced with the same logic.
+
+![kalshi vs polymarket](figures/10_kalshi_vs_polymarket.png)
+
 ## Method
 
 - Each match = three forecasts (H/D/A). Margin removed two ways: proportional, and Shin (1993).
@@ -175,6 +220,8 @@ python src/analysis.py   # writes results/
 python src/figures.py    # writes figures/
 python src/kalshi_vs_books.py   # Kalshi comparison (data in data/kalshi/)
 python src/kalshi_inplay.py     # Kalshi in-play reactions to goals
+python src/xvenue_study.py      # Kalshi vs Polymarket gaps and lock-ins
+python src/xvenue_scanner.py    # live paper-trading scanner (Ctrl+C to stop)
 ```
 
 Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` named
@@ -192,6 +239,9 @@ Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` na
 - `src/kalshi_fetch.py` – downloads Kalshi EPL prices around kickoff (public API, no key)
 - `src/kalshi_vs_books.py` – Kalshi vs bookmaker accuracy, bias, cost and a betting test
 - `src/kalshi_inplay.py` – Kalshi in-play prices around goals, late-game draws
+- `src/xvenue_study.py` – Kalshi vs Polymarket price gaps, fee-adjusted lock-ins, who follows whom
+- `src/xvenue_scanner.py` – live scanner for cross-venue lock-ins (paper trading only)
+- `data/xvenue/` – matched Kalshi/Polymarket minute prices and the 17 Nov live snapshot
 - `data/kalshi/` – the Kalshi prices used (collected 16–17 Nov 2026) and ESPN goal times
 - `src/edge_search.py` – pre-registered edge tests (train 2015–21, test 2021–26)
 - `results/` – all numbers (results.json + CSV tables)

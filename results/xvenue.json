@@ -1,0 +1,108 @@
+{
+ "matches": 479,
+ "minute_rows": 407527,
+ "pre": {
+  "rows": 257560,
+  "mean_abs_gap_c": 0.4435537350520269,
+  "median_abs_gap_c": 0.4999999999999949,
+  "share_gap_over_2c": 0.009380338561888493,
+  "share_gap_over_5c": 0.0,
+  "mean_gap_pm_minus_kalshi_c": -0.09441489361702168,
+  "kalshi_spread_c": 1.1894277061655536
+ },
+ "inplay": {
+  "rows": 145513,
+  "mean_abs_gap_c": 0.7927312336354828,
+  "median_abs_gap_c": 0.5000000000000004,
+  "share_gap_over_2c": 0.07505171359259998,
+  "share_gap_over_5c": 0.009133204593404026,
+  "mean_gap_pm_minus_kalshi_c": -0.013956828599506754,
+  "kalshi_spread_c": 1.504848364063692
+ },
+ "arbitrage": {
+  "0.0025": {
+   "pre": {
+    "share_minutes_arb": 0.00015530361857431278,
+    "share_minutes_arb_1c": 0.0,
+    "matches_with_any_arb": 6,
+    "mean_edge_when_arb_c": 0.1431300000000016
+   },
+   "inplay": {
+    "share_minutes_arb": 0.02535168679087092,
+    "share_minutes_arb_1c": 0.010438929855064496,
+    "matches_with_any_arb": 451,
+    "mean_edge_when_arb_c": 4.079773757454596
+   }
+  },
+  "0.005": {
+   "pre": {
+    "share_minutes_arb": 2.3295542786146917e-05,
+    "share_minutes_arb_1c": 0.0,
+    "matches_with_any_arb": 2,
+    "mean_edge_when_arb_c": 0.10546666666666112
+   },
+   "inplay": {
+    "share_minutes_arb": 0.018307642616123644,
+    "share_minutes_arb_1c": 0.009579900077656292,
+    "matches_with_any_arb": 419,
+    "mean_edge_when_arb_c": 5.373113575450451
+   }
+  },
+  "0.01": {
+   "pre": {
+    "share_minutes_arb": 0.0,
+    "share_minutes_arb_1c": 0.0,
+    "matches_with_any_arb": 0,
+    "mean_edge_when_arb_c": 0
+   },
+   "inplay": {
+    "share_minutes_arb": 0.012438751176870795,
+    "share_minutes_arb_1c": 0.00805426319297932,
+    "matches_with_any_arb": 366,
+    "mean_edge_when_arb_c": 7.315089563535909
+   }
+  }
+ },
+ "arb_episodes": {
+  "n": 1992,
+  "median_minutes": 1.0,
+  "share_1min": 0.8273092369477911
+ },
+ "gap_closing_pre": {
+  "n": 2416,
+  "kalshi_moves_share": 0.775232570052774,
+  "polymarket_moves_share": 0.2247674299472259,
+  "beta_kalshi": 0.24770300597041342,
+  "beta_pm": -0.07181789077616031
+ },
+ "gap_closing_inplay": {
+  "n": 9178,
+  "kalshi_moves_share": 0.1322062620021121,
+  "polymarket_moves_share": 0.867793737997888,
+  "beta_kalshi": 0.09660916215755436,
+  "beta_pm": -0.6341365732903698
+ },
+ "kickoff_accuracy": {
+  "n": 479,
+  "ll_kalshi": 1.0114436664427002,
+  "ll_polymarket": 1.0125508886167853,
+  "diff": -0.0011072221740853194,
+  "ci": [
+   -0.0026895094484325286,
+   0.0005156294767235845
+  ]
+ },
+ "inplay_arb_near_goals": {
+  "share_of_arb_minutes": 0.3925,
+  "share_of_all_inplay_minutes": 0.10591191018293161,
+  "median_minute": 76.0
+ },
+ "live_snapshot": {
+  "time": "2026-11-17T20:14:46.985Z",
+  "outcomes": 30,
+  "best_edge_c": -1.6128000000000142,
+  "mean_edge_c": -2.942931146047101,
+  "lockins": 0,
+  "same_best_ask": 17
+ }
+}
