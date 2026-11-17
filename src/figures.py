@@ -277,3 +277,41 @@ def kalshi():
 
 if __name__ == "__main__":
     kalshi()
+
+
+def kalshi_inplay():
+    """In-play: (left) average price path around a goal, (right) price after goal vs how often the scorer won."""
+    E = pd.read_csv(RES / "inplay_goal_events.csv")
+    res = json.loads((RES / "kalshi_inplay.json").read_text())
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.2))
+    lags = [-2, 1, 2, 3, 5, 10]
+    d = E.dropna(subset=[f"s{l}" for l in lags])
+    mean = [d[f"s{l}"].mean() for l in lags]
+    ax1.plot(lags, mean, "o-", color=BLUE, lw=2, ms=7, label="Kalshi price: scoring team wins")
+    ax1.axhline(d.y_scorer.mean(), color=ORANGE, lw=2, ls="--", label=f"How often they won ({d.y_scorer.mean():.0%})")
+    ax1.axvline(0, color=INK2, lw=1)
+    ax1.annotate("goal", (0, 0.42), xytext=(0.3, 0.42), fontsize=9, color=INK2)
+    ax1.set(xlabel="Minutes from goal", ylabel="Average probability", ylim=(0.3, 0.7))
+    ax1.set_title("Prices jump within a minute, to the right level")
+    ax1.legend(frameon=False, fontsize=9, loc="lower right")
+    ax1.text(0.02, 0.97, f"{len(d)} goals with prices at every minute shown\n(no second goal in the 10 minutes after)",
+             transform=ax1.transAxes, fontsize=8, color=INK2, va="top")
+    z = E.dropna(subset=["s2"]).copy()
+    z["bin"] = pd.cut(z.s2, [0, .1, .25, .4, .55, .7, .85, .95, 1.0])
+    g = z.groupby("bin", observed=True).agg(p=("s2", "mean"), y=("y_scorer", "mean"), n=("s2", "size")).reset_index()
+    ax2.plot([0, 1], [0, 1], color=INK2, lw=1, ls="--", label="Perfectly priced")
+    se = np.sqrt(g.y * (1 - g.y) / g.n) * 1.96
+    ax2.errorbar(g.p, g.y, yerr=se, fmt="o", ms=7, color=BLUE, ecolor=BLUE, elinewidth=1.5, capsize=3, label="Goals grouped by price")
+    for _, r in g.iterrows():
+        ax2.annotate(f"n={r.n}", (r.p, r.y), textcoords="offset points", xytext=(8, -12), fontsize=7, color=INK2)
+    ax2.set(xlim=(0, 1), ylim=(0, 1.05), xlabel="Kalshi price for the scoring team 2 min after the goal", ylabel="Share that went on to win")
+    ax2.set_title("Post-goal prices are calibrated")
+    ax2.legend(frameon=False, fontsize=9, loc="upper left")
+    fig.text(0.01, 0.01, f"Kalshi EPL match-result markets, {res['n_matches']} matches, {res['n_goals']} goals (goal times from ESPN). "
+             "Bars: 95% binomial intervals.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    fig.savefig(FIG / "9_kalshi_inplay.png", dpi=180)
+
+
+if __name__ == "__main__":
+    kalshi_inplay()

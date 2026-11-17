@@ -123,6 +123,42 @@ there are thousands an hour across all sports, and the API offers no way to find
 
 ![kalshi vs books](figures/8_kalshi_vs_books.png)
 
+## Follow-up: how does Kalshi's in-play market react to goals?
+
+**Question:** after a goal, are Kalshi's prices right on average, or do they over- or under-react?
+How fast do they move? And are draws priced fairly late in level games?
+
+**Data:** Kalshi's minute-by-minute best bid and ask for each Premier League match-result market,
+from kickoff to full time, for 453 matches (May 2025 to November 2026). Goal and red-card times
+come from ESPN's public match data; every final score matches football-data. Each goal is placed
+on the price path at the biggest move toward the scoring team just after the match-clock time.
+1,180 goals in total.
+
+**Test:** a fair price is a probability. So across many goals, the scoring team's price a few minutes
+after the goal should equal how often that team went on to win. Intervals bootstrap whole matches.
+
+**Result: no over- or under-reaction.**
+
+- **Fast.** About 99% of the price move after a goal happens within the first minute.
+- **Right level.** Two minutes after a goal, Kalshi priced the scoring team at 60.8% on average;
+  they won 60.1% of the time (gap +0.7 points, 95% CI −1.9 to +3.4). The same holds at 1, 5 and
+  10 minutes. Calibration slope 0.90 (CI 0.80–1.03), so no clear sign of prices being too extreme.
+- **Late leads are priced right.** From the 70th minute, a team leading by one was priced at 81.0%
+  and won 80.4% of the time.
+- **Lead, not a finding: draws may be slightly cheap in-play.** After an equaliser, the draw was priced
+  at 49.3% and happened 54.6% of the time (CI for the gap −11.5 to +1.4 points); in level games from
+  the 70th minute, 67.8% vs 71.9% (CI −10.2 to +1.8). Neither is significant, but they point the same
+  way as the pre-match result above, where draws also happened more often than priced.
+- Early in matches, prices look slightly too confident (slope 0.74 in the first 30 minutes), but the
+  bookmakers' pre-match prices for the same matches show the same (0.89 vs Kalshi 0.88), so this
+  looks like a quirk of this sample of matches, not of Kalshi's in-play market.
+
+**Limits:** one league; Kalshi's quotes only (not its traded prices); a minute is the finest resolution,
+so reactions inside the first minute can't be seen; 32 matches were dropped because a goal couldn't
+be located on the price path.
+
+![kalshi in-play](figures/9_kalshi_inplay.png)
+
 ## Method
 
 - Each match = three forecasts (H/D/A). Margin removed two ways: proportional, and Shin (1993).
@@ -138,6 +174,7 @@ there are thousands an hour across all sports, and the API offers no way to find
 python src/analysis.py   # writes results/
 python src/figures.py    # writes figures/
 python src/kalshi_vs_books.py   # Kalshi comparison (data in data/kalshi/)
+python src/kalshi_inplay.py     # Kalshi in-play reactions to goals
 ```
 
 Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` named
@@ -154,6 +191,7 @@ Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` na
 - `src/same_game.py` – same-game parlay correlation and Poisson goals model
 - `src/kalshi_fetch.py` – downloads Kalshi EPL prices around kickoff (public API, no key)
 - `src/kalshi_vs_books.py` – Kalshi vs bookmaker accuracy, bias, cost and a betting test
-- `data/kalshi/` – the Kalshi prices used (collected 16 Nov 2026)
+- `src/kalshi_inplay.py` – Kalshi in-play prices around goals, late-game draws
+- `data/kalshi/` – the Kalshi prices used (collected 16–17 Nov 2026) and ESPN goal times
 - `src/edge_search.py` – pre-registered edge tests (train 2015–21, test 2021–26)
 - `results/` – all numbers (results.json + CSV tables)
