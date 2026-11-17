@@ -1,0 +1,194 @@
+{
+  "moneyline": {
+    "games": 5200,
+    "weeks": 348,
+    "seasons": "2006-2026",
+    "win_rate": 0.6651923076923076,
+    "priced": 0.6672602866654839,
+    "ratio_2leg": 0.9943779013935153,
+    "ratio_2leg_null_95": [
+      0.9882530924288169,
+      0.99996450878133
+    ],
+    "ratio_2leg_p_upper": 0.4352823588205897,
+    "ratio_3leg": 0.9909910791572036,
+    "ratio_3leg_null_95": [
+      0.9743160126151404,
+      1.0097895916097208
+    ],
+    "ratio_3leg_p_upper": 0.5057471264367817,
+    "ratio_4leg": 0.985491632200933,
+    "ratio_4leg_null_95": [
+      0.9549143988574572,
+      1.0248325994068728
+    ],
+    "ratio_4leg_p_upper": 0.5677161419290355,
+    "overdispersion": 1.0232974764054448,
+    "overdispersion_null_95": [
+      0.8851381751145388,
+      1.1627809045720965
+    ],
+    "overdispersion_p_upper": 0.4767616191904048,
+    "rho": 0.002040081250305502,
+    "rho_null_95": [
+      -0.007898849672342383,
+      0.012070167183794108
+    ],
+    "rho_p_upper": 0.4767616191904048,
+    "weekly_z_sd": 1.0165348454092753,
+    "share_weeks_z_over_2": 0.017241379310344827,
+    "share_expected_under_normal": 0.0228,
+    "week_2026-09": {
+      "games": 15,
+      "won": 14,
+      "expected": 10.276428177210548,
+      "win_rate": 0.9333333333333333,
+      "priced": 0.6850952118140365,
+      "z": 2.0952561409343837,
+      "p_at_least_this_many_if_independent": 0.02576225693735776,
+      "rank_among_all_weeks": 4,
+      "all_weeks": 348
+    },
+    "week_2026-10": {
+      "games": 14,
+      "won": 9,
+      "expected": 9.20311001584573,
+      "win_rate": 0.6428571428571429,
+      "priced": 0.6573650011318379,
+      "z": -0.11694048216766098,
+      "p_at_least_this_many_if_independent": 0.6651718555173622,
+      "rank_among_all_weeks": 194,
+      "all_weeks": 348
+    }
+  },
+  "spread": {
+    "games": 5076,
+    "weeks": 348,
+    "seasons": "2006-2026",
+    "win_rate": 0.48817966903073284,
+    "priced": 0.4991846091941688,
+    "ratio_2leg": 0.9492933794345855,
+    "ratio_2leg_null_95": [
+      0.945234893866511,
+      0.9679695943989932
+    ],
+    "ratio_2leg_p_upper": 0.887056471764118,
+    "ratio_3leg": 0.913973308938294,
+    "ratio_3leg_null_95": [
+      0.9018712809575207,
+      0.9692020517230768
+    ],
+    "ratio_3leg_p_upper": 0.8885557221389305,
+    "ratio_4leg": 0.871241075750798,
+    "ratio_4leg_null_95": [
+      0.8485210949176143,
+      0.9846437424956078
+    ],
+    "ratio_4leg_p_upper": 0.8920539730134932,
+    "overdispersion": 0.9117019258134053,
+    "overdispersion_null_95": [
+      0.8695706058611247,
+      1.1498820883317962
+    ],
+    "overdispersion_p_upper": 0.9050474762618691,
+    "rho": -0.006562911498665189,
+    "rho_null_95": [
+      -0.009636541140539948,
+      0.010813229183404709
+    ],
+    "rho_p_upper": 0.9050474762618691,
+    "weekly_z_sd": 0.9548879738485708,
+    "share_weeks_z_over_2": 0.011494252873563218,
+    "share_expected_under_normal": 0.0228,
+    "week_2026-09": {
+      "games": 15,
+      "won": 11,
+      "expected": 7.576112577630322,
+      "win_rate": 0.7333333333333333,
+      "priced": 0.5050741718420215,
+      "z": 1.7688037455327341,
+      "p_at_least_this_many_if_independent": 0.06395628464216577,
+      "rank_among_all_weeks": 9,
+      "all_weeks": 348
+    },
+    "week_2026-10": {
+      "games": 14,
+      "won": 8,
+      "expected": 7.010940070339948,
+      "win_rate": 0.5714285714285714,
+      "priced": 0.5007814335957106,
+      "z": 0.5288998972808535,
+      "p_at_least_this_many_if_independent": 0.39751072560667955,
+      "rank_among_all_weeks": 86,
+      "all_weeks": 348
+    }
+  },
+  "over": {
+    "games": 5142,
+    "weeks": 348,
+    "seasons": "2006-2026",
+    "win_rate": 0.4980552314274601,
+    "priced": 0.5007604957708753,
+    "ratio_2leg": 0.9834723135010418,
+    "ratio_2leg_null_95": [
+      0.9786563366977461,
+      1.0016408482328565
+    ],
+    "ratio_2leg_p_upper": 0.8525737131434283,
+    "ratio_3leg": 0.964694277677986,
+    "ratio_3leg_null_95": [
+      0.9518588356702479,
+      1.0213581472655435
+    ],
+    "ratio_3leg_p_upper": 0.8800599700149925,
+    "ratio_4leg": 0.9376075816967028,
+    "ratio_4leg_null_95": [
+      0.9126084829542791,
+      1.057205484470774
+    ],
+    "ratio_4leg_p_upper": 0.8840579710144928,
+    "overdispersion": 0.9465264755777777,
+    "overdispersion_null_95": [
+      0.863710970739675,
+      1.1491115796584914
+    ],
+    "overdispersion_p_upper": 0.7876061969015492,
+    "rho": -0.0039165783581345225,
+    "rho_null_95": [
+      -0.009879824040617073,
+      0.010670891742042204
+    ],
+    "rho_p_upper": 0.7876061969015492,
+    "weekly_z_sd": 0.9761789349320673,
+    "share_weeks_z_over_2": 0.017241379310344827,
+    "share_expected_under_normal": 0.0228,
+    "week_2026-09": {
+      "games": 15,
+      "won": 7,
+      "expected": 7.484879259126339,
+      "win_rate": 0.4666666666666667,
+      "priced": 0.4989919506084226,
+      "z": -0.2504845210859892,
+      "p_at_least_this_many_if_independent": 0.6936758848883267,
+      "rank_among_all_weeks": 202,
+      "all_weeks": 348
+    },
+    "week_2026-10": {
+      "games": 14,
+      "won": 9,
+      "expected": 7.060771587311602,
+      "win_rate": 0.6428571428571429,
+      "priced": 0.5043408276651145,
+      "z": 1.0367786075930518,
+      "p_at_least_this_many_if_independent": 0.22160330199250972,
+      "rank_among_all_weeks": 45,
+      "all_weeks": 348
+    }
+  },
+  "weekly_z_correlations": {
+    "fav_vs_over": 0.0028842577511324543,
+    "fav_vs_cover": 0.7351789031640511,
+    "cover_vs_over": 0.06705856645909829,
+    "weeks": 348
+  }
+}

@@ -349,3 +349,40 @@ def xvenue():
 
 if __name__ == "__main__":
     xvenue()
+
+
+def nfl_weeks():
+    """NFL: (left) how good each week was for favourites vs what independent games predict, (right) same-week parlay ratios."""
+    w = pd.read_csv(RES / "nfl_weekly.csv"); R = json.loads((RES / "nfl_weeks.json").read_text())
+    m = w[w.market == "moneyline"]
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.2))
+    bins = np.arange(-3.5, 3.01, 0.25)
+    ax1.hist(m.z, bins=bins, color=BLUE, alpha=0.8, label=f"{len(m)} regular-season weeks, 2006-2026")
+    xs = np.linspace(-3.5, 3, 200)
+    ax1.plot(xs, len(m) * 0.25 * np.exp(-xs ** 2 / 2) / np.sqrt(2 * np.pi), color=INK, lw=1.5, ls="--", label="If games were independent")
+    for wk, lab, dy in (("2026-09", "2026 wk 9", 0), ("2024-09", "2024 wk 9", 6), ("2026-10", "2026 wk 10", 0)):
+        z = float(m[m.wk == wk].z.iloc[0])
+        ax1.axvline(z, color=ORANGE, lw=1.5)
+        ax1.annotate(lab, (z, 30 - dy), xytext=(4, 0), textcoords="offset points", fontsize=8, color=ORANGE, rotation=90, va="top")
+    ax1.set(xlabel="Favourites' wins that week vs prices (standard deviations)", ylabel="Weeks")
+    ax1.set_title("Weeks behave like independent games")
+    ax1.legend(frameon=False, fontsize=8, loc="upper left")
+    x = np.arange(3); wbar = 0.25
+    for i, (mk, col, lab) in enumerate((("moneyline", BLUE, "Moneyline favourites"), ("spread", INK2, "Spread favourites cover"), ("over", ORANGE, "Overs"))):
+        r = R[mk]; v = [r[f"ratio_{k}leg"] for k in (2, 3, 4)]
+        lo = [r[f"ratio_{k}leg_null_95"][0] for k in (2, 3, 4)]; hi = [r[f"ratio_{k}leg_null_95"][1] for k in (2, 3, 4)]
+        ax2.bar(x + (i - 1) * wbar, v, wbar, color=col, label=lab)
+        ax2.vlines(x + (i - 1) * wbar, lo, hi, color=INK, lw=1.2)
+    ax2.axhline(1, color=INK, lw=1, ls="--")
+    ax2.set_xticks(x, ["2-leg", "3-leg", "4-leg"]); ax2.set_ylim(0.8, 1.12)
+    ax2.set(ylabel="Same-week parlays: how often all legs won\n÷ product of their prices")
+    ax2.set_title("No same-week clustering in parlays")
+    ax2.legend(frameon=False, fontsize=8, loc="upper center", ncol=3)
+    fig.text(0.01, 0.01, "NFL regular season 2006-2026 (nflverse closing lines). Lines on bars: 95% range when games are shuffled across weeks "
+             "within a season.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    fig.savefig(FIG / "11_nfl_weeks.png", dpi=180)
+
+
+if __name__ == "__main__":
+    nfl_weeks()

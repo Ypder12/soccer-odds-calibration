@@ -204,6 +204,37 @@ above was produced with the same logic.
 
 ![kalshi vs polymarket](figures/10_kalshi_vs_polymarket.png)
 
+## Follow-up: do NFL favourites win together in the same week?
+
+**Question:** in NFL weeks 9 and 10 of 2026, parlay market makers lost heavily as favourites came in.
+A loss like that is usually called rare by simulating each game independently. That is only right if
+favourites don't tend to win (or lose) together in the same week. Do they?
+
+**Data:** every NFL regular-season game 2006–2026 with closing lines from the public nflverse game file
+(5,200 games with moneylines, 348 weeks). Same method as the soccer test above: compare same-week
+outcomes with their prices, and build the null by shuffling games across weeks within each season.
+
+**Result: NFL weeks behave like independent games, so independence-based rarity estimates hold up.**
+
+- **Prices are right on average.** Moneyline favourites won 66.5% of the time, priced at 66.7%.
+- **No same-week clustering.** Average within-week correlation of favourites' results +0.002
+  (null range −0.008 to +0.012); same-week 2-, 3- and 4-leg favourite parlays won 0.99× their price.
+  Week-to-week swings are the size independent games would produce (standard deviation 1.02, vs 1.00).
+  The same holds for spread favourites covering and for overs.
+- **Favourites and overs are unrelated week to week** (correlation 0.00), so a book long both
+  isn't doubly exposed through some common factor.
+- **2026 week 9 really was extreme.** Favourites won 14 of 15 against 10.3 expected: only 3 weeks since
+  2006 were better for favourites, one of them 2024 week 9 (the quarter the US sportsbooks warned
+  investors about). If games are independent, 14 or more happens about 1 time in 39.
+- **2026 week 10 was ordinary for straight-up favourites** (9 of 14 won, 9.2 expected), and overs went
+  9 of 14. So week 10's losses must come from which games were most heavily backed, not from the
+  favourites as a group.
+
+**Limits:** these are unweighted counts across all games; a market maker's loss depends on how much
+was bet on each leg, which only the venues see. Closing lines come from nflverse's sources, not Kalshi.
+
+![nfl weeks](figures/11_nfl_weeks.png)
+
 ## Method
 
 - Each match = three forecasts (H/D/A). Margin removed two ways: proportional, and Shin (1993).
@@ -222,6 +253,7 @@ python src/kalshi_vs_books.py   # Kalshi comparison (data in data/kalshi/)
 python src/kalshi_inplay.py     # Kalshi in-play reactions to goals
 python src/xvenue_study.py      # Kalshi vs Polymarket gaps and lock-ins
 python src/xvenue_scanner.py    # live paper-trading scanner (Ctrl+C to stop)
+python src/nfl_weeks.py         # NFL same-week correlation (data/nfl/games.csv from nflverse)
 ```
 
 Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` named
@@ -242,6 +274,8 @@ Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` na
 - `src/xvenue_study.py` – Kalshi vs Polymarket price gaps, fee-adjusted lock-ins, who follows whom
 - `src/xvenue_scanner.py` – live scanner for cross-venue lock-ins (paper trading only)
 - `data/xvenue/` – matched Kalshi/Polymarket minute prices and the 17 Nov live snapshot
+- `src/nfl_weeks.py` – do NFL favourites, covers and overs cluster within a week?
+- `data/nfl/games.csv` – nflverse game file (github.com/nflverse/nfldata), 2006–2026
 - `data/kalshi/` – the Kalshi prices used (collected 16–17 Nov 2026) and ESPN goal times
 - `src/edge_search.py` – pre-registered edge tests (train 2015–21, test 2021–26)
 - `results/` – all numbers (results.json + CSV tables)
