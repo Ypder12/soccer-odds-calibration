@@ -386,3 +386,54 @@ def nfl_weeks():
 
 if __name__ == "__main__":
     nfl_weeks()
+
+
+def combos():
+    """Combo pricer: (left) pre-match mispricing, independent vs model; (middle) pooled calibration;
+    (right) in-play, first vs second half."""
+    R = json.loads((RES / "combo_study.json").read_text()); I = json.loads((RES / "combo_inplay.json").read_text())
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16, 6.2), gridspec_kw={"width_ratios": [1.35, 1, 1]})
+    C = R["combos"]
+    y = np.arange(len(C))[::-1]
+    ai = [c["actual_vs_independent"] for c in C]; am = [c["actual_vs_poisson"] for c in C]
+    ci = np.array([c["actual_vs_independent_ci"] for c in C]); cm = np.array([c["actual_vs_poisson_ci"] for c in C])
+    ax1.hlines(y, ci[:, 0], ci[:, 1], color=ORANGE, lw=2, alpha=.5); ax1.scatter(ai, y, color=ORANGE, s=28, zorder=3, label="Legs multiplied (independent)")
+    ax1.hlines(y - .25, cm[:, 0], cm[:, 1], color=BLUE, lw=2, alpha=.5); ax1.scatter(am, y - .25, color=BLUE, s=28, zorder=3, label="Scoreline model")
+    ax1.axvline(1, color=INK, lw=1, ls="--")
+    ax1.set_yticks(y - .12, [c["combo"].replace("_", " ") for c in C], fontsize=8)
+    ax1.set_xscale("log"); ax1.set_xticks([0.5, 0.7, 1, 1.4, 2], ["0.5", "0.7", "1", "1.4", "2"])
+    ax1.xaxis.set_minor_formatter(plt.NullFormatter()); ax1.set_xlim(0.4, 2.1)
+    ax1.set(xlabel="How often it happened ÷ price (log scale)")
+    ax1.set_title("Pre-match: multiplying legs misprices combos by up to 1.7×")
+    ax1.legend(frameon=False, fontsize=8, loc="lower right")
+    cal = pd.DataFrame(R["calibration"])
+    for name, col, lab in (("independent", ORANGE, "Legs multiplied"), ("poisson", BLUE, "Scoreline model")):
+        d = cal[cal.model == name]
+        ax2.plot(d.predicted, d.actual, "o-", color=col, label=lab)
+    ax2.plot([0, .65], [0, .65], color=INK, lw=1, ls="--")
+    ax2.set(xlabel="Combo price", ylabel="How often it happened", xlim=(0, .65), ylim=(0, .65))
+    ax2.set_title("All 20 combos pooled")
+    ax2.legend(frameon=False, fontsize=8, loc="upper left")
+    keep = ["over2.5", "over3.5", "btts", "over2.5 + btts", "home + btts", "draw + btts", "home + home_clean_sheet"]
+    rows = [c for c in I["combos"] if c["combo"] in keep]
+    x = np.arange(len(rows)); w = .38
+    for i, (lab, col, key) in enumerate((("First half", INK2, "first_half"), ("Second half", ORANGE, "second_half"))):
+        v = [r[f"actual_vs_model_{key}"] for r in rows]; c_ = np.array([r[f"actual_vs_model_{key}_ci"] for r in rows])
+        ax3.bar(x + (i - .5) * w, v, w, color=col, label=lab)
+        ax3.vlines(x + (i - .5) * w, c_[:, 0], c_[:, 1], color=INK, lw=1.2)
+    ax3.axhline(1, color=INK, lw=1, ls="--")
+    short = {"over2.5": "over 2.5", "over3.5": "over 3.5", "btts": "btts", "over2.5 + btts": "over 2.5\n+ btts",
+             "home + btts": "home win\n+ btts", "draw + btts": "draw\n+ btts", "home + home_clean_sheet": "home win\nto nil"}
+    ax3.set_xticks(x, [short[r["combo"]] for r in rows], fontsize=8)
+    ax3.set(ylabel="How often it happened ÷ model price", ylim=(0.4, 1.6))
+    ax3.set_title("In-play (Kalshi): pricing goals off live\n1X2 works early, overprices them late")
+    ax3.legend(frameon=False, fontsize=8, loc="upper left")
+    fig.text(0.01, 0.01, f"Pre-match: {R['matches']:,} Premier League + Championship matches 2019/20-2025/26, Pinnacle closing prices, "
+             f"combo prices built only from each match's own 1X2 and over/under 2.5. In-play: {I['snapshots']:,} Kalshi snapshots from "
+             f"{I['matches']} Premier League matches. Lines: 95% intervals (bootstrap by match).", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    fig.savefig(FIG / "12_combo_pricer.png", dpi=180)
+
+
+if __name__ == "__main__":
+    combos()

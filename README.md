@@ -80,7 +80,7 @@ reproduces the market's fair 1X2 and over 2.5 prices. It never sees results.
 - The adjustment depends on the favourite: "favourite wins + over" shrinks from 1.23× for near-even
   matches to 1.06× for 75%+ favourites, while "draw + under" grows.
 - Known gap: plain Poisson prices draws about 6% lower than the market does. A Dixon–Coles
-  low-score adjustment is the natural next step.
+  low-score adjustment is the natural next step (tested in the combo pricer section below: it does not help).
 
 ![same game](figures/7_same_game.png)
 
@@ -235,6 +235,75 @@ was bet on each leg, which only the venues see. Closing lines come from nflverse
 
 ![nfl weeks](figures/11_nfl_weeks.png)
 
+## Follow-up: a combo (same-game parlay) pricer, tested pre-match and in-play
+
+**Question:** event-market makers quote same-game combos ("favourite wins + over 2.5 + both teams
+score") on request. Can a maker build correct combo prices from the single-market prices alone, and
+how wrong is the shortcut of multiplying the legs as if they were independent?
+
+**Pricer** (`src/combo_pricer.py`): turns a match's fair 1X2 and over/under 2.5 prices into a full
+grid of final-score probabilities, then prices any combination of legs from that grid (result,
+totals 0.5–4.5, both teams to score, clean sheets, correct score). Three scoreline models: plain
+Poisson (2 parameters), Dixon–Coles and a both-teams-score tilt (3 parameters, matching all four
+market prices exactly). No parameter is learned from results. In-play, it refits the rate of the
+goals still to come from the live 1X2 price at the current score.
+
+**Pre-match test:** 6,060 Premier League + Championship matches, 2019/20–2025/26, Pinnacle closing
+prices (Shin margin removal), 20 combos of two or three legs.
+
+**Result 1: multiplying legs is badly wrong; the scoreline model is right to within a few percent.**
+
+| Combo (fav = 1X2 favourite) | Happened | Legs multiplied | Model | Happened ÷ multiplied | Happened ÷ model |
+|---|---|---|---|---|---|
+| Fav wins + over 2.5 | 30.9% | 26.0% | 30.8% | **1.19×** (1.14–1.23) | 1.00× (0.97–1.04) |
+| Draw + over 2.5 | 6.0% | 12.6% | 5.6% | **0.48×** (0.43–0.53) | 1.08× (0.98–1.18) |
+| Draw + under 2.5 | 18.9% | 13.2% | 18.7% | 1.43× (1.36–1.51) | 1.01× (0.96–1.07) |
+| Fav wins + both score | 22.4% | 26.8% | 22.0% | 0.83× (0.80–0.87) | 1.02× (0.97–1.07) |
+| Over 2.5 + both score | 39.4% | 27.1% | 38.9% | 1.45× (1.41–1.50) | 1.01× (0.98–1.04) |
+| Fav wins to nil | 28.0% | 18.1% | 29.1% | 1.55× (1.48–1.61) | 0.96× (0.93–1.00) |
+| Fav wins + over 2.5 + both score | 22.4% | 13.9% | 22.0% | **1.61×** (1.53–1.68) | 1.02× (0.97–1.06) |
+| Underdog wins + over 2.5 + both score | 11.0% | 6.3% | 11.3% | **1.73×** (1.61–1.86) | 0.97× (0.91–1.04) |
+
+- Across all 20 combos, multiplying legs misprices by 33% on average (mean absolute log ratio);
+  the Poisson model by 3.6%.
+- Correlation runs both ways: some combos happen far more often than multiplied legs imply (three-leg
+  "win + goals" combos up to 1.7×), others far less (draw + over 2.5 at half). A maker using the
+  shortcut would be picked off on one side and overcharge on the other.
+- The three scoreline models price combos about equally well. Plain Poisson is marginally best
+  (mean mispricing 3.6% vs 4.1% for Dixon–Coles and the tilt); forcing the grid to match the market's
+  draw price exactly does not help, because the market's draw price itself runs slightly high (25.8%
+  priced, 25.0% happened). The textbook Dixon–Coles correction adds nothing once the model is fitted
+  to market prices rather than to past results.
+- Remaining model misses are small and point the same way: draws with goals are slightly
+  underpriced (draw + both score 1.08×, 1.02–1.14), 0-0 slightly overpriced (0.92×). Both have grown
+  in the last three seasons (draw + over 2.5: 1.19× in 2023/24–2025/26).
+
+**In-play test:** 9,948 Kalshi snapshots (every 5 minutes from kick-off) from 453 Premier League
+matches. At each one the pricer reads only Kalshi's live 1X2 and the score.
+
+**Result 2: the right combo price depends heavily on the score, and pricing goals off live 1X2
+breaks down late in matches.**
+
+- Correlation flips with the score. "Home win + over 2.5", relative to its legs multiplied: 1.24×
+  at 0-0, **2.0× at 0-1** (the home side must score at least twice, which also sends the total
+  over), 1.46× at 1-1, but 0.97× at 1-0 (the two legs are now nearly unrelated). A fixed
+  correlation adjustment would be wrong most of the time.
+- First half: totals and both-score prices derived from live 1X2 are right (over 2.5 1.00×,
+  0.91–1.08; both score 1.06×, 0.96–1.15).
+- Second half: the same method overprices goals by 14–35% (over 3.5 0.70×, 0.57–0.83; both score
+  0.67×, 0.57–0.80) and underprices "win to nil" (1.24×, 1.09–1.38). Kalshi's live draw price is
+  only slightly cheap here (1.08×, 0.95–1.19), so most of the error is the model's assumption that
+  late goals arrive independently of the score: a leading team protects its lead. A maker should
+  price late-match totals from a totals market or a score-dependent goal model, not back them out
+  of the 1X2.
+
+![combo pricer](figures/12_combo_pricer.png)
+
+**Limits:** pre-match prices are Pinnacle closing only (no market prices for both-teams-score, so
+those legs are model-priced on both sides of the comparison); no real combo quotes from Kalshi's RFQ
+flow to compare against (the public API does not list combos by match); in-play sample is one and a
+half seasons of Premier League, with a high draw rate (27%).
+
 ## Method
 
 - Each match = three forecasts (H/D/A). Margin removed two ways: proportional, and Shin (1993).
@@ -254,6 +323,8 @@ python src/kalshi_inplay.py     # Kalshi in-play reactions to goals
 python src/xvenue_study.py      # Kalshi vs Polymarket gaps and lock-ins
 python src/xvenue_scanner.py    # live paper-trading scanner (Ctrl+C to stop)
 python src/nfl_weeks.py         # NFL same-week correlation (data/nfl/games.csv from nflverse)
+python src/combo_study.py       # combo pricer, pre-match test (~2 min)
+python src/combo_inplay.py      # combo pricer, in-play test on Kalshi
 ```
 
 Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` named
@@ -275,6 +346,9 @@ Needs numpy, pandas, scipy, matplotlib. Put the football-data CSVs in `data/` na
 - `src/xvenue_scanner.py` – live scanner for cross-venue lock-ins (paper trading only)
 - `data/xvenue/` – matched Kalshi/Polymarket minute prices and the 17 Nov live snapshot
 - `src/nfl_weeks.py` – do NFL favourites, covers and overs cluster within a week?
+- `src/combo_pricer.py` – combo / same-game parlay pricer (scoreline grid from 1X2 + totals, pre-match and in-play)
+- `src/combo_study.py` – pre-match test of the pricer on 6,060 matches
+- `src/combo_inplay.py` – in-play test of the pricer on Kalshi
 - `data/nfl/games.csv` – nflverse game file (github.com/nflverse/nfldata), 2006–2026
 - `data/kalshi/` – the Kalshi prices used (collected 16–17 Nov 2026) and ESPN goal times
 - `src/edge_search.py` – pre-registered edge tests (train 2015–21, test 2021–26)
